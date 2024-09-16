@@ -10,3 +10,10 @@ contextBridge.exposeInMainWorld('systemAPI', {
         return systemInfo;
     }
 });
+
+// Expose APIs to the renderer process
+contextBridge.exposeInMainWorld('taskAPI', {
+    getTasks: async () => {
+      return await ipcRenderer.invoke('get-tasks');
+    }
+});

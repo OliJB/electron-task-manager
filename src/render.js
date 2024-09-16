@@ -27,3 +27,33 @@ async function loadSystemInfo() {
 
 // Load system information when the page is loaded
 window.onload = loadSystemInfo;
+
+
+// Function to load and display tasks
+async function loadTasks() {
+    const tasks = await window.taskAPI.getTasks();
+  
+    // Get the container where tasks will be listed
+    const taskContainer = document.getElementById('taskContainer');
+    taskContainer.innerHTML = ''; // Clear any existing tasks
+  
+    // Create table rows for each task
+    tasks.forEach(task => {
+      const taskRow = document.createElement('div');
+      taskRow.classList.add('task-row');
+      taskRow.innerHTML = `
+        <div class="task-name">${task.name}</div>
+        <div class="task-pid">${task.pid}</div>
+        <div class="task-cpu">${task.cpu}%</div>
+        <div class="task-mem">${task.mem}%</div>
+      `;
+      taskContainer.appendChild(taskRow);
+    });
+  }
+  
+  // Refresh the tasks list periodically (every 5 seconds)
+  setInterval(loadTasks, 5000);
+  
+  // Load tasks on initial page load
+  window.onload = loadTasks;
+  

@@ -71,3 +71,14 @@ ipcMain.handle('get-system-info', async () => {
   };
   return systemInfo;
 });
+
+// IPC handler to get the list of running tasks
+ipcMain.handle('get-tasks', async () => {
+  const processes = await si.processes();
+  return processes.list.map(process => ({
+    pid: process.pid,
+    name: process.name,
+    cpu: process.cpu.toFixed(2),
+    mem: process.mem.toFixed(2)
+  }));
+});
